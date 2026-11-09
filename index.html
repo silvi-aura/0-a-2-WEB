@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fffdf7">
+  <meta name="description" content="Crecer de 0 a 2: una app para acompañarte mes a mes con alimentación, estimulación, juegos, hitos del desarrollo, sueño y herramientas para la primera infancia.">
+  <title>Crecer de 0 a 2 | Acompañá sus primeros años</title>
+  <style>
+    :root {
+      --aqua: #cfe9e2;
+      --yellow: #f7edc9;
+      --rose: #d8a9b5;
+      --rose-deep: #b77e8d;
+      --blue: #d7e8ef;
+      --cream: #fffdf7;
+      --ink: #53665f;
+      --body: #66766f;
+      --dark: #40574f;
+      --white: #ffffff;
+      --shadow: 0 18px 48px rgba(83, 102, 95, .12);
+      --radius: 28px;
+      --checkout: "https://pay.hotmart.com/N108402738M";
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      color: var(--body);
+      background: var(--cream);
+      font-family: "Nunito", "Segoe UI", Arial, sans-serif;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .container { width: min(1120px, 92%); margin-inline: auto; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px; border-radius: 999px;
+      background: rgba(255,255,255,.82); border: 1px solid rgba(83,102,95,.12);
+      color: #8d6874; font-size: 12px; font-weight: 900; letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { color: var(--ink); line-height: 1.12; letter-spacing: -.035em; }
+    h1 { font-size: clamp(2.55rem, 7vw, 4.65rem); max-width: 700px; }
+    h2 { font-size: clamp(2rem, 5vw, 3.25rem); }
+    h3 { font-size: 1.22rem; }
+    .btn {
+      min-height: 54px; display: inline-flex; align-items: center; justify-content: center;
+      gap: 10px; padding: 14px 26px; border: 0; border-radius: 999px;
+      background: linear-gradient(135deg, #e4bdc6 0%, #c98e9e 100%);
+      color: #fff; font: inherit; font-weight: 900; font-size: 16px;
+      box-shadow: 0 12px 26px rgba(183,126,141,.28);
+      transition: transform .2s ease, box-shadow .2s ease;
+      text-align: center; cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(183,126,141,.34); }
+    .btn:focus-visible, a:focus-visible { outline: 3px solid #759e92; outline-offset: 4px; }
+    .payment-note {
+      display: inline-block; margin: 0 0 20px; padding: 14px 18px;
+      border: 1px solid rgba(120,169,158,.25); border-radius: 17px;
+      background: linear-gradient(135deg, #eff8f4, #fff8e5);
+      box-shadow: 0 8px 24px rgba(83,102,95,.07); color: var(--ink);
+    }
+    .payment-note strong { display: block; color: #8d6874; font-size: 13px; letter-spacing: .045em; }
+    .payment-note span { display: block; margin-top: 2px; font-size: 14px; font-weight: 800; }
+    .price { color: var(--ink); font-size: 1.15rem; font-weight: 900; }
+
+    /* 1. Encabezado */
+    header {
+      position: fixed; inset: 0 0 auto; z-index: 50;
+      background: rgba(255,253,247,.9); backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(83,102,95,.1);
+    }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .brand { color: var(--ink); font-size: 20px; font-weight: 1000; letter-spacing: -.04em; white-space: nowrap; }
+    .brand span { color: var(--rose-deep); }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a:not(.btn) { color: var(--ink); font-size: 14px; font-weight: 800; }
+    .nav-links .btn { min-height: 44px; padding: 10px 19px; font-size: 14px; }
+
+    /* 2. Portada */
+    .hero {
+      position: relative; isolation: isolate; overflow: hidden;
+      padding: 132px 0 88px;
+      background:
+        radial-gradient(ellipse 38% 34% at 8% 14%, rgba(207,233,226,.88), transparent 72%),
+        radial-gradient(ellipse 34% 35% at 91% 15%, rgba(247,237,201,.9), transparent 72%),
+        radial-gradient(ellipse 32% 38% at 88% 90%, rgba(216,169,181,.27), transparent 72%),
+        radial-gradient(ellipse 28% 30% at 12% 90%, rgba(215,232,239,.7), transparent 72%),
+        var(--cream);
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 48px; }
+    .hero-copy h1 { margin: 19px 0 20px; }
+    .hero-copy h1 span { color: var(--rose-deep); }
+    .hero-copy .lead { max-width: 620px; margin-bottom: 24px; font-size: 18px; }
+    .hero-copy .small { margin-top: 13px; font-size: 13px; color: #84918b; }
+    .hero-art { position: relative; display: grid; place-items: center; min-height: 440px; }
+    .hero-art::before, .hero-art::after {
+      content: ""; position: absolute; z-index: -1; border-radius: 48% 52% 60% 40%;
+      filter: blur(.3px);
+    }
+    .hero-art::before { width: 88%; height: 75%; background: rgba(207,233,226,.7); transform: rotate(-13deg); }
+    .hero-art::after { width: 62%; height: 52%; right: 0; bottom: 3%; background: rgba(247,237,201,.72); transform: rotate(20deg); }
+    .mockup {
+      width: min(100%, 440px); border-radius: 34px; padding: 10px;
+      background: rgba(255,255,255,.86); border: 1px solid rgba(255,255,255,.95);
+      box-shadow: 0 30px 70px rgba(83,102,95,.2); transform: rotate(1.5deg);
+    }
+    .mockup img { width: 100%; border-radius: 25px; }
+    .bubble {
+      position: absolute; z-index: 4; max-width: 190px; padding: 12px 16px;
+      border-radius: 17px; background: #fff; color: var(--ink);
+      box-shadow: 0 12px 28px rgba(83,102,95,.13); font-size: 13px; font-weight: 900;
+    }
+    .bubble-one { top: 3%; left: -3%; }
+    .bubble-two { top: 39%; right: -4%; }
+    .bubble-three { bottom: 5%; left: 1%; }
+
+    /* Secciones */
+    .section { position: relative; isolation: isolate; overflow: hidden; padding: 84px 0; }
+    .section::before, .section::after {
+      content: ""; position: absolute; z-index: -1; pointer-events: none;
+      border-radius: 52% 48% 45% 55%; filter: blur(.4px);
+    }
+    .section::before { width: 260px; height: 190px; left: -115px; top: 40px; background: rgba(207,233,226,.4); transform: rotate(-18deg); }
+    .section::after { width: 240px; height: 190px; right: -105px; bottom: 12px; background: rgba(247,237,201,.48); transform: rotate(19deg); }
+    .section-heading { max-width: 770px; margin: 0 auto 42px; text-align: center; }
+    .section-heading h2 { margin: 14px 0; }
+    .section-heading p { font-size: 17px; }
+
+    /* 3. Dolor */
+    .pain { background: rgba(255,255,255,.54); }
+    .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .pain-card {
+      padding: 28px; background: rgba(255,255,255,.9); border: 1px solid rgba(83,102,95,.1);
+      border-radius: var(--radius); box-shadow: 0 12px 30px rgba(83,102,95,.06);
+    }
+    .pain-card:nth-child(2) { background: #f4faf7; }
+    .pain-card:nth-child(3) { background: #fff8e9; }
+    .icon { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 18px; margin-bottom: 16px; background: var(--rose); font-size: 25px; }
+    .pain-card:nth-child(2) .icon { background: var(--aqua); }
+    .pain-card:nth-child(3) .icon { background: var(--yellow); }
+    .pain-card h3 { margin-bottom: 10px; }
+    .pain-card p { font-size: 15px; }
+
+    /* 4. Puente */
+    .bridge {
+      color: rgba(255,255,255,.9); padding: 82px 0;
+      background:
+        radial-gradient(ellipse 33% 65% at 4% 35%, rgba(207,233,226,.16), transparent 72%),
+        radial-gradient(ellipse 33% 65% at 96% 85%, rgba(247,237,201,.16), transparent 72%),
+        linear-gradient(135deg, #536d63, #3f584e);
+    }
+    .bridge-grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: 52px; align-items: center; }
+    .bridge h2 { color: white; margin: 15px 0 18px; }
+    .bridge-copy p { color: rgba(255,255,255,.82); font-size: 17px; margin-bottom: 25px; }
+    .bridge-list { display: grid; gap: 11px; }
+    .bridge-list li {
+      list-style: none; padding: 13px 17px; border-radius: 16px;
+      background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.14);
+      color: #fff; font-weight: 750;
+    }
+    .bridge .btn { background: linear-gradient(135deg, #f0d4da, #d8a9b5); color: #fff; }
+
+    /* 5. Qué incluye */
+    .features { background: var(--cream); }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+    .feature {
+      display: flex; gap: 15px; padding: 23px; border-radius: 23px;
+      background: #fff; border: 1px solid rgba(83,102,95,.1);
+      box-shadow: 0 8px 24px rgba(83,102,95,.05);
+    }
+    .feature-icon { flex: 0 0 48px; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 16px; font-size: 23px; background: var(--aqua); }
+    .feature:nth-child(2) .feature-icon, .feature:nth-child(5) .feature-icon { background: var(--yellow); }
+    .feature:nth-child(3) .feature-icon, .feature:nth-child(6) .feature-icon { background: #f8e8ec; }
+    .feature h3 { margin: 2px 0 7px; }
+    .feature p { font-size: 14px; }
+
+    /* 6. Etapas */
+    .timeline { background: rgba(215,232,239,.26); }
+    .timeline-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .stage {
+      min-height: 230px; padding: 25px 21px; border-radius: 23px;
+      border: 1px solid rgba(83,102,95,.1); background: rgba(255,255,255,.9);
+    }
+    .stage:nth-child(2) { background: #f3faf7; }
+    .stage:nth-child(3) { background: #fff9eb; }
+    .stage:nth-child(4) { background: #fbf0f2; }
+    .stage .num { color: var(--rose-deep); font-size: 12px; font-weight: 1000; letter-spacing: .07em; }
+    .stage h3 { margin: 10px 0; }
+    .stage p { font-size: 14px; }
+
+    /* 7. Frase */
+    .quote { padding: 76px 0; text-align: center; background: #f8edf0; }
+    .quote blockquote { max-width: 850px; margin: auto; color: var(--ink); font-size: clamp(1.7rem, 4vw, 2.7rem); font-weight: 900; line-height: 1.25; letter-spacing: -.035em; }
+    .quote p { margin-top: 17px; color: #8b777e; font-size: 13px; }
+
+    /* 8. Cierre */
+    .closing {
+      padding: 92px 0 108px; text-align: center;
+      background:
+        radial-gradient(ellipse 36% 48% at 9% 18%, rgba(207,233,226,.65), transparent 72%),
+        radial-gradient(ellipse 32% 50% at 91% 85%, rgba(247,237,201,.8), transparent 72%),
+        var(--cream);
+    }
+    .closing h2 { max-width: 850px; margin: 15px auto 18px; }
+    .closing .lead { max-width: 730px; margin: 0 auto 23px; font-size: 17px; }
+    .closing .payment-note { margin-bottom: 22px; }
+    .disclaimer { max-width: 800px; margin: 28px auto 0; color: #87928d; font-size: 12px; }
+
+    /* 9. Pie */
+    footer { padding: 35px 0 100px; background: #3d554c; color: rgba(255,255,255,.8); text-align: center; font-size: 13px; }
+    footer strong { color: #fff; font-size: 18px; }
+    footer a { color: #f3dce2; text-decoration: underline; text-underline-offset: 3px; }
+    footer p + p { margin-top: 6px; }
+
+    /* 10. CTA fijo */
+    .floating-cta {
+      position: fixed; z-index: 60; left: 20px; right: 20px; bottom: 18px;
+      width: min(440px, calc(100% - 40px)); margin-inline: auto;
+      min-height: 56px; border: 2px solid rgba(255,255,255,.95);
+      box-shadow: 0 12px 32px rgba(117,75,88,.28);
+    }
+    @media (max-width: 900px) {
+      .hero-grid, .bridge-grid { grid-template-columns: 1fr; }
+      .hero-copy { text-align: center; }
+      .hero-copy h1, .hero-copy .lead { margin-left: auto; margin-right: auto; }
+      .hero-art { min-height: 410px; width: min(100%, 560px); margin: 10px auto 0; }
+      .mockup { width: min(76%, 390px); }
+      .pain-grid { grid-template-columns: 1fr; }
+      .feature-grid { grid-template-columns: repeat(2, 1fr); }
+      .timeline-grid { grid-template-columns: repeat(2, 1fr); }
+      .bridge-copy { text-align: center; }
+    }
+    @media (max-width: 600px) {
+      html { scroll-padding-top: 75px; }
+      .container { width: min(92%, 480px); }
+      .nav { min-height: 66px; }
+      .brand { font-size: 17px; }
+      .nav-links { gap: 15px; }
+      .nav-links a:not(.btn) { font-size: 12px; }
+      .nav-links .btn { display: none; }
+      .hero { padding: 105px 0 56px; }
+      .hero-copy h1 { font-size: clamp(2.45rem, 12vw, 3.35rem); }
+      .hero-copy .lead { font-size: 16px; }
+      .hero-art { min-height: 355px; }
+      .mockup { width: min(78%, 330px); padding: 7px; border-radius: 27px; }
+      .mockup img { border-radius: 20px; }
+      .bubble { max-width: 145px; padding: 10px 12px; font-size: 11px; }
+      .bubble-one { top: 0; left: -1%; }
+      .bubble-two { right: -1%; top: 39%; }
+      .bubble-three { bottom: 0; left: -1%; }
+      .section { padding: 62px 0; }
+      .section-heading { margin-bottom: 30px; }
+      .section-heading p { font-size: 15px; }
+      .pain-card { padding: 23px; }
+      .bridge { padding: 62px 0; }
+      .bridge-grid { gap: 30px; }
+      .bridge-copy p { font-size: 16px; }
+      .feature-grid, .timeline-grid { grid-template-columns: 1fr; }
+      .feature { padding: 20px; }
+      .stage { min-height: 0; }
+      .quote { padding: 60px 0; }
+      .closing { padding: 68px 0 85px; }
+      .closing .lead { font-size: 16px; }
+      .floating-cta { left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); width: calc(100% - 24px); }
+      footer { padding-bottom: 94px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 1. Encabezado fijo -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#inicio" aria-label="Crecer de 0 a 2, inicio">Crecer <span>de 0 a 2</span></a>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#incluye">Qué incluye</a>
+        <a class="btn" href="https://pay.hotmart.com/N108402738M" target="_blank" rel="noopener">Quiero acceder</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 2. Portada -->
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Una guía para acompañar sus primeros años</span>
+          <h1>¿Sentís que hay mil cosas por aprender sobre el crecimiento de tu bebé y no sabés <span>por dónde empezar?</span></h1>
+          <p class="lead">Alimentación, juegos, sueño, hitos y rutinas: acompañar cada etapa puede traer muchas preguntas. <strong>Crecer de 0 a 2</strong> reúne información y herramientas prácticas para que tengas una orientación organizada, mes a mes, en un solo lugar.</p>
+          <div class="payment-note">
+            <strong>✨ PAGO ÚNICO, SIN SUSCRIPCIÓN</strong>
+            <span>Acceso completo por USD 12,99. Sin cuotas ni renovaciones.</span>
+          </div>
+          <p><a class="btn" href="https://pay.hotmart.com/N108402738M" target="_blank" rel="noopener">Quiero acceder a Crecer de 0 a 2 →</a></p>
+          <p class="small">Contenido general y educativo para acompañar la crianza. No reemplaza el seguimiento de tu pediatra.</p>
+        </div>
+        <div class="hero-art" aria-label="Vista de la aplicación Crecer de 0 a 2">
+          <div class="bubble bubble-one">🥣 ¿Qué puede comer según su edad?</div>
+          <div class="bubble bubble-two">🧸 ¿A qué podemos jugar hoy?</div>
+          <div class="bubble bubble-three">🌙 ¿Cómo acompaño su sueño?</div>
+          <div class="mockup"><img src="mockup.png" alt="Vista de la app Crecer de 0 a 2 en un teléfono, con contenidos por mes para acompañar al bebé"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Sección de dolor -->
+    <section class="section pain">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">La crianza viene con preguntas</span>
+          <h2>Hay días en los que querés resolver todo… y terminás buscando por todos lados.</h2>
+          <p>Es fácil encontrar información suelta. Lo difícil suele ser ubicarla en la etapa que estás viviendo y convertirla en algo útil para el día a día.</p>
+        </div>
+        <div class="pain-grid">
+          <article class="pain-card">
+            <div class="icon" aria-hidden="true">🥄</div>
+            <h3>“¿Qué le doy de comer ahora?”</h3>
+            <p>Con cada etapa cambian las texturas, las porciones y las necesidades. Tener referencias organizadas por edad ayuda a planificar sin empezar la búsqueda desde cero.</p>
+          </article>
+          <article class="pain-card">
+            <div class="icon" aria-hidden="true">🧸</div>
+            <h3>“¿Qué actividad puedo hacer con mi bebé?”</h3>
+            <p>No hace falta llenar la casa de juguetes. A veces necesitás una idea sencilla, adecuada para su momento de desarrollo y que puedas hacer con lo que ya tenés.</p>
+          </article>
+          <article class="pain-card">
+            <div class="icon" aria-hidden="true">🌙</div>
+            <h3>“¿Está avanzando como corresponde?”</h3>
+            <p>Los hitos, el sueño y las rutinas despiertan dudas. Contar con listas y registros te permite observar cambios y conversar con el pediatra con más información.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Sección puente -->
+    <section class="bridge" id="como-funciona">
+      <div class="container bridge-grid">
+        <div class="bridge-copy">
+          <span class="eyebrow">Acompañamiento organizado por etapa</span>
+          <h2>No necesitás saberlo todo de una vez.</h2>
+          <p>Entrá a la etapa que estás transitando y encontrá contenidos para orientarte. La app reúne ideas, guías y herramientas para acompañar el crecimiento sin convertir cada día en una lista interminable de tareas.</p>
+          <a class="btn" href="https://pay.hotmart.com/N108402738M" target="_blank" rel="noopener">Quiero tenerla conmigo →</a>
+        </div>
+        <ul class="bridge-list">
+          <li>🍎 Orientación de alimentación y menú semanal con lista de compras.</li>
+          <li>📖 Recetario por edad, buscador y filtros para ingredientes y alérgenos.</li>
+          <li>🎲 Ideas de estimulación y un plan de juegos con actividades día a día.</li>
+          <li>🌱 Hitos del desarrollo organizados por edades para observar y registrar.</li>
+          <li>😴 Recursos de sueño, sonidos relajantes y orientación sobre rutinas.</li>
+          <li>💉 Seguimiento, calculadora por edad, calendario de vacunas de referencia y biblioteca de cuentos y canciones.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5. Qué incluye -->
+    <section class="section features" id="incluye">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Todo reunido en la aplicación</span>
+          <h2>Herramientas para acompañar el día a día.</h2>
+          <p>Crecer de 0 a 2 combina contenidos educativos con recursos prácticos para que puedas consultar, registrar y volver a mirar cuando lo necesites.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">🥣</div>
+            <div><h3>Alimentación y recetas</h3><p>Orientación desde la lactancia y el inicio de la alimentación complementaria, menú semanal, lista de compras y recetario con filtros por edad e ingredientes.</p></div>
+          </article>
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">🧸</div>
+            <div><h3>Estimulación y juegos</h3><p>Propuestas de juego y actividades acordes a distintas etapas, con un plan que presenta una actividad nueva para acompañar cada día.</p></div>
+          </article>
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">🌱</div>
+            <div><h3>Hitos del desarrollo</h3><p>Listas de habilidades por edad para observar avances, llevar un seguimiento y tener puntos concretos para conversar en los controles.</p></div>
+          </article>
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">🌙</div>
+            <div><h3>Sueño y rutinas</h3><p>Información sobre descanso, hábitos y pantallas, además de sonidos relajantes y recursos para acompañar los momentos de sueño.</p></div>
+          </article>
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">📊</div>
+            <div><h3>Registro y calculadora</h3><p>Anotá tomas o comidas, horas de sueño, minutos de juego, alimentos nuevos y cómo te sentís. Consultá datos orientativos según la edad.</p></div>
+          </article>
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">📚</div>
+            <div><h3>Vacunas y biblioteca</h3><p>Calendario de vacunación de referencia para Argentina, guías temáticas y biblioteca de cuentos y canciones para compartir.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Recorrido por etapas -->
+    <section class="section timeline">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Mes a mes</span>
+          <h2>Cada etapa trae algo nuevo para descubrir.</h2>
+          <p>La propuesta es acompañar el crecimiento desde los primeros meses, con contenidos que podés consultar según la edad y las necesidades de tu bebé.</p>
+        </div>
+        <div class="timeline-grid">
+          <article class="stage">
+            <span class="num">ETAPA 01 · 0 A 5 MESES</span>
+            <h3>Los primeros meses</h3>
+            <p>Lactancia, adaptación, vínculo, cuidado cotidiano, sueño seguro y primeros estímulos a través de la voz, el contacto y el juego.</p>
+          </article>
+          <article class="stage">
+            <span class="num">ETAPA 02 · 6 A 11 MESES</span>
+            <h3>Empieza a explorar</h3>
+            <p>Alimentación complementaria, nuevas texturas, exploración, movimiento, juegos sensoriales y observación de hitos.</p>
+          </article>
+          <article class="stage">
+            <span class="num">ETAPA 03 · 12 A 17 MESES</span>
+            <h3>Más movimiento y autonomía</h3>
+            <p>Comidas familiares adaptadas, lenguaje, primeros pasos, juego, rutinas y acompañamiento de nuevas habilidades.</p>
+          </article>
+          <article class="stage">
+            <span class="num">ETAPA 04 · 18 A 24 MESES</span>
+            <h3>Crece su mundo</h3>
+            <p>Más comunicación, juego simbólico, movimiento, hábitos y herramientas para seguir observando su desarrollo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Frase destacada: copy editorial, no testimonio real -->
+    <section class="quote">
+      <div class="container">
+        <blockquote>“No necesito tener todas las respuestas hoy. Necesito información clara para acompañar a mi bebé, paso a paso, en la etapa que estamos viviendo.”</blockquote>
+        <p>Una idea que resume el propósito de Crecer de 0 a 2.</p>
+      </div>
+    </section>
+
+    <!-- 8. Cierre -->
+    <section class="closing">
+      <div class="container">
+        <span class="eyebrow">Un espacio para acompañar sus primeros años</span>
+        <h2>Menos información desordenada. Más claridad para el día a día.</h2>
+        <p class="lead">Tené a mano contenidos sobre alimentación, juegos, sueño, desarrollo y seguimiento. Consultalos a tu ritmo y volvé a ellos cada vez que aparezca una nueva pregunta.</p>
+        <div class="payment-note">
+          <strong>✨ UN SOLO PAGO · USD 12,99</strong>
+          <span>Acceso completo, sin cuotas ni renovaciones.</span>
+        </div>
+        <p><a class="btn" href="https://pay.hotmart.com/N108402738M" target="_blank" rel="noopener">Quiero acceder ahora →</a></p>
+        <p class="disclaimer">Importante: Crecer de 0 a 2 ofrece información general y educativa. No reemplaza la consulta con tu pediatra ni con otros profesionales de la salud.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 9. Pie -->
+  <footer>
+    <div class="container">
+      <p><strong>Crecer de 0 a 2</strong></p>
+      <p>Una herramienta educativa para acompañar los primeros años.</p>
+      <p>Contacto: <a href="mailto:silvi_y@hotmail.com">silvi_y@hotmail.com</a></p>
+    </div>
+  </footer>
+
+  <!-- 10. Botón flotante -->
+  <a class="btn floating-cta" href="https://pay.hotmart.com/N108402738M" target="_blank" rel="noopener">Quiero acceder ahora</a>
+</body>
+</html>
